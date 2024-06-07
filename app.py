@@ -11,27 +11,7 @@ load_dotenv()
 app = Flask(__name__)
 url = os.getenv("DATABASE_URL")
 
-connection = psycopg2.connect(url)
-
-# @app.route('/api/get_book', methods=['GET'])
-# def get_book():
-#     table_name = request.args.get('table_name')
-#     if not table_name:
-#         return jsonify({'error': 'Table name is required'}), 400
-
-#     query = f"SELECT * FROM public.{table_name};"
-#     try:
-#         with connection:
-#             with connection.cursor() as cursor:
-#                 cursor.execute(query)
-#                 rows = cursor.fetchall()
-#                 columns = [desc[0] for desc in cursor.description]
-#                 book_list = [dict(zip(columns, row)) for row in rows]
-#         return jsonify(book_list)
-#     except Exception as e:
-#         return jsonify({'status': 'fail', 'error': str(e)})
-    
-    
+connection = psycopg2.connect(url) 
 @app.route('/api/create_table', methods=['POST'])
 def create_table():
     data = request.json

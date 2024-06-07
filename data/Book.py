@@ -24,6 +24,7 @@ class Book:
         )
         
         author = data.get('Author')
+        store = data.get('store_id')
 
         if not book.book_id or not book.book_name:
             return jsonify({'error': 'Book_ID and Book_Title are required'}), 400
@@ -56,12 +57,16 @@ class Book:
                     query_author_book = f'INSERT INTO public."Book_Author" ("Book_Book_ID", "Author_Author_ID") VALUES (%s, %s)'
                     cursor.execute(query_author_book, (book.book_id, author_id))
                     
+                    #Insert into Inventory Store
+                    query_inventory_book = f'INSERT INTO public."Inventory_Store"("Book_Book_ID", "Store_ID_Store") VALUES (%s, %s)'
+                    cursor.execute(query_inventory_book, (book.book_id, store))
                     connection.commit()
             return jsonify({'status': 'success', 'query': query})
         except Exception as e:
             return jsonify({'status': 'fail', 'error': str(e)})
 
     @staticmethod
+    
     def delete_book(data, connection):
         book_title = data.get('Book_Title')
 
@@ -71,6 +76,7 @@ class Book:
         try:
             with connection:
                 with connection.cursor() as cursor:
+                    cursor.execute('BEGIN')
                     cursor.execute('SELECT "Book_ID" FROM public."Book" WHERE "Book_Title" = %s', (book_title,))
                     book_id_row = cursor.fetchone()
                     if not book_id_row:
@@ -78,9 +84,11 @@ class Book:
                     
                     book_id = book_id_row[0]
                     
+                    query_store = 'DELETE FROM public."Inventory_Store" WHERE "Book_Book_ID" = %s'
                     query_author = 'DELETE FROM public."Book_Author" WHERE "Book_Book_ID" = %s'
                     query_book = 'DELETE FROM public."Book" WHERE "Book_ID" = %s'
 
+                    cursor.execute(query_store, (book_id,))
                     cursor.execute(query_author, (book_id,))
                     cursor.execute(query_book, (book_id,))
                     
@@ -88,7 +96,13 @@ class Book:
 
             return jsonify({'status': 'success'})
         except Exception as e:
+            if connection:
+                connection.rollback()
             return jsonify({'status': 'fail', 'error': str(e)}), 500
+        finally:
+            if connection:
+                cursor.close()
+                connection.close()
 
     @staticmethod
     def get_book_profile(data, connection):
