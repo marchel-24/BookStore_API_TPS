@@ -169,8 +169,8 @@ def delete_book():
     except Exception as e:
         return jsonify({'status': 'fail', 'error': str(e)}), 500
 
-# @app.route('/api/membuat_wishlist', methods = ['POST'])
-# def make_wishlist():
-#     data = request.get_json()
-#     nama_customer =
+@app.route('/api/membuat_wishlist', methods = ['POST'])
+def make_wishlist():
+    data = request.get_json()
+    # nama_customer =
             
