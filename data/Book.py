@@ -136,7 +136,28 @@ class Book:
             return jsonify({'status': 'success', 'book': book_profile})
         except Exception as e:
             return jsonify({'status': 'fail', 'error': str(e)}), 500
+    
+    @staticmethod
+    def get_book_profile_id(data, connection):
+        book_id = data.get('Book_ID')
+        if not book_id:
+            return jsonify({'status': 'fail', 'error': 'Need Book ID'}), 400
         
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+                    cursor.execute('SELECT "Book_ID", "Book_Title", "Book_Publish_Year", "Book_Price", "Original_Language_ID", "Language_ID", "ID_Publisher" FROM public."Book" WHERE "Book_ID" = %s', (book_id,))
+                    book_row = cursor.fetchone()
+                    if not book_row:
+                        return jsonify({'status': 'fail', 'error': 'Book not found'}), 404
+
+                    columns = ["Book_ID", "Book_Title", "Book_Publish_Year", "Book_Price", "Original_Language_ID", "Language_ID", "ID_Publisher"]
+                    book_profile = dict(zip(columns, book_row))
+
+            return jsonify({'status': 'success', 'book': book_profile})
+        except Exception as e:
+            return jsonify({'status': 'fail', 'error': str(e)}), 500
+               
     @staticmethod
     def update_book(data, connection):
         book_id = data.get('Book_ID')
