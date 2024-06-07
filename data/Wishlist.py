@@ -22,7 +22,7 @@ class Wishlist:
         try:
             with connection:
                 with connection.cursor() as cursor:
-                    cursor.execute('SELECT 1 FROM public."Whislist" WHERE "Whislist_ID" = %s', (wishlist.wishlist_id,))
+                    cursor.execute('SELECT 1 FROM public."Whislist" WHERE "Whistlist_ID" = %s', (wishlist.wishlist_id,))
                     existing_wishlist = cursor.fetchone()
                     if existing_wishlist:
                         return jsonify({'status': 'fail', 'error': 'wishlist_id is already used'}), 400
@@ -42,7 +42,7 @@ class Wishlist:
                     if not existing_customer:
                         return jsonify({'status': 'fail', 'error': 'Customer is not registered'})
 
-                    query = 'INSERT INTO public."Whislist" ("Whislist_ID", "ID_Customer", "ID_Store", "ID_Book", "Date_Make") VALUES (%s, %s, %s, %s, %s)'
+                    query = 'INSERT INTO public."Whislist" ("Whistlist_ID", "ID_Customer", "ID_Store", "ID_Book", "Date_Make") VALUES (%s, %s, %s, %s, %s)'
                     values = (wishlist.wishlist_id, wishlist.customer_id, wishlist.store_id, wishlist.book_id, wishlist.date_make)
                     cursor.execute(query, values)
                     connection.commit()
@@ -60,11 +60,11 @@ class Wishlist:
         try:
             with connection:
                 with connection.cursor() as cursor:
-                    cursor.execute('SELECT 1 FROM public."Whislist" WHERE "Whislist_ID" = %s', (wishlist_id,))
+                    cursor.execute('SELECT 1 FROM public."Whislist" WHERE "Whistlist_ID" = %s', (wishlist_id,))
                     wishlist_id_check = cursor.fetchone()
                     if not wishlist_id_check:
                         return jsonify({'status': 'fail', 'error': 'wishlist_id is not found'})
-                    cursor.execute('DELETE FROM public."Whislist" WHERE "Whislist_ID" = %s', (wishlist_id,))
+                    cursor.execute('DELETE FROM public."Whislist" WHERE "Whistlist_ID" = %s', (wishlist_id,))
                     connection.commit()
             return jsonify({'status': 'success'})
         except Exception as e:
