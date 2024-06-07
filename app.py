@@ -3,6 +3,7 @@ import psycopg2
 from dotenv import load_dotenv
 from flask import Flask, jsonify, request
 from data.Book import Book
+from data.Wishlist import Wishlist
 
 
 load_dotenv()
@@ -107,5 +108,23 @@ def delete_book():
     data = request.get_json()
     return Book.delete_book(data, connection)
 
+@app.route('/api/change_book_profile', methods = ['PUT'])
+def change_book_profile():
+    data = request.get_json()
+    return Book.update_book(data, connection)
 
+@app.route('/api/insert_wishlist', methods = ['POST'])
+def insert_wishlist():
+    data = request.get_json()
+    return Wishlist.make_wishlist(data, connection)
+    
+@app.route('/api/delete_wishlist', methods = ['DELETE'])
+def delete_wishlist():
+    data = request.get_json()
+    return Wishlist.delete_wishlist(data, connection)
+
+@app.route('/api/update_wishlist', methods = ['PUT'])
+def update_wishlist():
+    data = request.get_json()
+    return Wishlist.update_wishlist(data, connection)
             

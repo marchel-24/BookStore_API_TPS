@@ -110,3 +110,50 @@ class Book:
             return jsonify({'status': 'success', 'book': book_profile})
         except Exception as e:
             return jsonify({'status': 'fail', 'error': str(e)}), 500
+        
+    @staticmethod
+    def update_book(data, connection):
+        book_id = data.get('Book_ID')
+        
+        if not book_id:
+            return jsonify({'error': 'Book_ID is required'}), 400
+
+        update_fields = {}
+        if 'Book_Title' in data:
+            update_fields['Book_Title'] = data['Book_Title']
+        if 'Book_Price' in data:
+            update_fields['Book_Price'] = data['Book_Price']
+        if 'Book_Publish_Year' in data:
+            update_fields['Book_Publish_Year'] = data['Book_Publish_Year']
+        if 'ID_Publisher' in data:
+            update_fields['ID_Publisher'] = data['ID_Publisher']
+        if 'Language_ID' in data:
+            update_fields['Language_ID'] = data['Language_ID']
+        if 'Original_Language_ID' in data:
+            update_fields['Original_Language_ID'] = data['Original_Language_ID']
+
+        if not update_fields:
+            return jsonify({'error': 'No fields to update'}), 400
+
+        set_clause = ", ".join([f'"{key}" = %s' for key in update_fields.keys()])
+        values = list(update_fields.values())
+        values.append(book_id)
+
+        query = f'UPDATE public."Book" SET {set_clause} WHERE "Book_ID" = %s'
+
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+                    # Check if the book exists
+                    cursor.execute('SELECT 1 FROM public."Book" WHERE "Book_ID" = %s', (book_id,))
+                    existing_book = cursor.fetchone()
+                    if not existing_book:
+                        return jsonify({'status': 'fail', 'error': 'Book_ID does not exist'}), 400
+
+                    # Update the book
+                    cursor.execute(query, values)
+                    connection.commit()
+            return jsonify({'status': 'success', 'query': query})
+        except Exception as e:
+            return jsonify({'status': 'fail', 'error': str(e)})
+
