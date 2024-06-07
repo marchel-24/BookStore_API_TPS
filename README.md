@@ -23,6 +23,8 @@ Saya sudah membuat beberapa endpoint yang dapat digunakan. Berikut adalah endpoi
     - Untuk menghapus wishlist dari seorang kustomer
 8. **/api/update_wishlist**
     - Untuk mengupdate wishlist dari seorang kustomer
+9. **/api/create_table**
+    - Merupakan fungsi tambahan jika kedepannya ingin menambahkan tabel baru pada database
 
 ## Instalasi
 Untuk melakukan instalasi, dapat dilakukan dengan cara berikut:
