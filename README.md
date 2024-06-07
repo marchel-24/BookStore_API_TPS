@@ -7,8 +7,8 @@ Good Reading Book (GRD) adalah start up company yang bergerak dalam bidang penju
 ## API Endpoint
 Saya sudah membuat beberapa endpoint yang dapat digunakan. Berikut adalah endpoint yang sudah dibuat.
 
-1. **/api/get_book**
-   - Untuk menampilkan semua buku yang tersedia
+1. **/api/table**
+   - Untuk menampilkan seluruh informasi dari tabel yang diinginkan
 2. **/api/get_book_profile**
    - Untuk menampilkan buku yang dicari
 3. **/api/insert_book**
@@ -25,6 +25,8 @@ Saya sudah membuat beberapa endpoint yang dapat digunakan. Berikut adalah endpoi
     - Untuk mengupdate wishlist dari seorang kustomer
 9. **/api/create_table**
     - Merupakan fungsi tambahan jika kedepannya ingin menambahkan tabel baru pada database
+10. **/api/get_all_book**
+   - Merupakan fungsi untuk menampilkan seluruh daftar buku yang tersedia
 
 ## Instalasi
 Untuk melakukan instalasi, dapat dilakukan dengan cara berikut:
