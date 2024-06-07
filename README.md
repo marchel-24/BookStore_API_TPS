@@ -26,7 +26,7 @@ Saya sudah membuat beberapa endpoint yang dapat digunakan. Berikut adalah endpoi
 9. **/api/create_table**
     - Merupakan fungsi tambahan jika kedepannya ingin menambahkan tabel baru pada database
 10. **/api/get_all_book**
-   - Merupakan fungsi untuk menampilkan seluruh daftar buku yang tersedia
+    - Untuk menampilkan seluruh informasi terkait buku yang tersedia   
 
 ## Instalasi
 Untuk melakukan instalasi, dapat dilakukan dengan cara berikut:
