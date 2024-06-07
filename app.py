@@ -82,6 +82,11 @@ def get_book_profile():
     data = request.get_json()
     return Book.get_book_profile(data, connection)
 
+@app.route('/api/get_book_profile/<int:book_id>', methods=['GET'])
+def get_book_profile_id(book_id):
+    data = {'Book_ID' : book_id}
+    return Book.get_book_profile_id(data, connection)
+
 @app.route('/api/insert_book', methods=['POST'])
 def insert_book():
     data = request.get_json()
