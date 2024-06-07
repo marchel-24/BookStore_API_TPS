@@ -53,8 +53,8 @@ def create_table():
         return jsonify({'status': 'fail', 'error': str(e)})
 
 
-@app.route('/api/get_book', methods=['GET'])
-def get_book():
+@app.route('/api/table', methods=['GET'])
+def get_table_information():
     data = request.get_json()
     table_name = data.get('table_name') if data else None
     if not table_name:
@@ -72,6 +72,10 @@ def get_book():
     except Exception as e:
         return jsonify({'status': 'fail', 'error': str(e)})
     
+
+@app.route('/api/get_all_book', methods = ['GET'])
+def get_all_book():
+    return Book.get_all_book(connection)    
 
 @app.route('/api/get_book_profile', methods=['GET'])
 def get_book_profile():

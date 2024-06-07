@@ -66,7 +66,19 @@ class Book:
             return jsonify({'status': 'fail', 'error': str(e)})
 
     @staticmethod
+    def get_all_book(connection):
+        try:
+            with connection:
+                with connection.cursor() as cursor:
+                    cursor.execute('SELECT * FROM public."Book"')
+                    rows = cursor.fetchall()
+                    columns = [desc[0] for desc in cursor.description]
+                    book_list = [dict(zip(columns, row)) for row in rows]
+            return jsonify(book_list)
+        except Exception as e:
+            return jsonify({'status': 'fail', 'error': str(e)})
     
+    @staticmethod
     def delete_book(data, connection):
         book_title = data.get('Book_Title')
 
